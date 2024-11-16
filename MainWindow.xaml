@@ -1,0 +1,209 @@
+﻿<Window x:Name="MyWindow" x:Class="VolunteeringWpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VolunteeringWpfApp"
+        mc:Ignorable="d"
+        Title="Учёт и планирование волонтёрской деятельности" Height="530" Width="990" MinHeight="530"  MinWidth="990" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" KeyDown="Window_KeyDown" SizeChanged="MyWindow_SizeChanged" StateChanged="MyWindow_StateChanged">
+    <Grid Margin="0,0,0,15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="Действия">
+                <MenuItem Header="Волонтёры">
+                    <MenuItem x:Name="AddNewVolunteerMenuItem" Header="Добавить волонтёра" Click="AddNewVolunteerMenuItem_Click"/>
+                    <MenuItem x:Name="EditVolunteerMenuItem" Header="Изменить данные волонтёра" IsEnabled="False" Click="EditVolunteerMenuItem_Click"/>
+                    <MenuItem x:Name="DeleteVolunteerMenuItem" Header="Удалить волонтёра" IsEnabled="False" Click="DeleteVolunteerMenuItem_Click"/>
+                </MenuItem>
+                <MenuItem Header="Мороприятия">
+                    <MenuItem x:Name="AddNewEventMenuItem" Header="Добавить мероприятие" Click="AddNewEventMenuItem_Click"/>
+                    <MenuItem x:Name="EditEventMenuItem" Header="Изменить данные мероприятия" IsEnabled="False" Click="EditEventMenuItem_Click"/>
+                    <MenuItem x:Name="DeleteEventMenuItem" Header="Удалить мероприятие" IsEnabled="False" Click="DeleteEventMenuItem_Click"/>
+                </MenuItem>
+                <MenuItem Header="Участие в мероприятиях">
+                    <MenuItem x:Name="AddNewVolunteerEventMenuItem" Header="Добавить участие" Click="AddNewVolunteerEventMenuItem_Click"/>
+                    <MenuItem x:Name="EditVolunteerEventMenuItem" Header="Изменить данные об участии" IsEnabled="False" Click="EditVolunteerEventMenuItem_Click"/>
+                    <MenuItem x:Name="DeleteVolunteerEventMenuItem" Header="Удалить участие" IsEnabled="False" Click="DeleteVolunteerEventMenuItem_Click"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Импорт">
+                <MenuItem x:Name="ImportFromExcelSpreadsheetMenuItem" Header="Из файла Microsoft Excel" IsEnabled="True" Click="ImportFromExcelSpreadsheetMenuItem_Click"/>
+                <MenuItem x:Name="ImportFromXMLFileMenuItem" Header="Таблицы из файла XML" IsEnabled="True" Click="ImportFromXMLFileMenuItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="Экспорт">
+                <MenuItem x:Name="ExportToWordTextDocumentMenuItem" Header="В файл Microsoft Word" IsEnabled="False" Click="ExportToWordTextDocumentMenuItem_Click"/>
+                <MenuItem x:Name="ExportToExcelSpreadsheetMenuItem" Header="В файл Microsoft Excel" IsEnabled="False" Click="ExportToExcelSpreadsheetMenuItem_Click"/>
+                <MenuItem x:Name="ExportToXMLFileMenuItem" Header="Таблицы в файл XML" IsEnabled="True" Click="ExportToXMLFileMenuItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="Справка">
+                <MenuItem x:Name="AboutProgramMenuItem" Header="О программе" Click="AboutProgramMenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <TabControl x:Name="TabControl" Grid.Row="1" SelectionChanged="TabControl_SelectionChanged" Margin="5,5,5,5">
+            <TabItem Header="Волонтёры">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" x:Name="AddNewVolunteerButton" Content="Добавить волонтёра" Margin="5" Click="AddNewVolunteerButton_Click"/>
+                        <Button Grid.Column="1" x:Name="EditVolunteerButton" Content="Изменить данные волонтёра" IsEnabled="False" Margin="5" Click="EditVolunteerButton_Click"/>
+                        <Button Grid.Column="2" x:Name="DeleteVolunteerButton" Content="Удалить волонтёра" Margin="5" IsEnabled="False" Click="DeleteVolunteerButton_Click"/>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Grid.Row="0" x:Name="VolunteersDataGrid" 
+                                    AutoGenerateColumns="False" CanUserAddRows="False"
+                                    IsReadOnly="True" Margin="5" 
+                                    PreviewMouseLeftButtonUp="VolunteersDataGrid_PreviewMouseLeftButtonUp"
+                                    ScrollViewer.CanContentScroll="True"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto" Visibility="Hidden"/>
+                                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="Auto"/>
+                                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="Auto"/>
+                                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="Auto"/>
+                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding DateOfBirth, StringFormat='dd.MM.yyyy'}" Width="Auto"/>
+                                <DataGridTextColumn Header="СНИЛС" Binding="{Binding Snils}" Width="Auto"/>
+                                <DataGridTextColumn Header="Регион проживания" Binding="{Binding Region.Name}" Width="Auto"/>
+                                <DataGridTextColumn Header="Адрес электронной почты" Binding="{Binding Email}" Width="Auto"/>
+                                <DataGridTextColumn Header="Номер телефона" Binding="{Binding Phone}" Width="Auto"/>
+                                <DataGridCheckBoxColumn Header="Наличие транспортного средства" Binding="{Binding HasTransport}" Width="Auto"/>
+                                <DataGridTextColumn Header="Дополнительная информация" Binding="{Binding AdditionalInfo}" Width="Auto"/>
+                        </DataGrid.Columns>
+                        </DataGrid>
+                        <Grid x:Name="ImageGrid" Grid.Column="1" Width="150" Height="200" Cursor="Hand" Background="White">
+                            <Border BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="Black" Opacity="0.5"/>
+                                </Border.BorderBrush>
+                                <Image x:Name="VolunteerImage" Grid.Row="0" Width="150" Height="200" Stretch="Uniform" Visibility="Hidden"/>
+                            </Border>
+                            <TextBlock x:Name="VolunteerImageTextBlock" Grid.Row="0" Text="Выберите волонтера в таблице, чтобы показать его изображение" Visibility="Visible" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                    
+            </TabItem>
+
+            <TabItem Header="Мероприятия">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" x:Name="AddNewEventButton" Content="Добавить мероприятие" Margin="5" Click="AddNewEventButton_Click"/>
+                        <Button Grid.Column="1" x:Name="EditEventButton" Content="Изменить данные мероприятия" Margin="5" IsEnabled="False" Click="EditEventButton_Click"/>
+                        <Button Grid.Column="2" x:Name="DeleteEventButton" Content="Удалить мероприятие" Margin="5" IsEnabled="False" Click="DeleteEventButton_Click"/>
+                    </Grid>
+
+                    <DataGrid x:Name="EventsDataGrid" Grid.Row="1"
+                              AutoGenerateColumns="False" CanUserAddRows="False"
+                              IsReadOnly="True" Margin="5" 
+                              PreviewMouseLeftButtonUp="EventsDataGrid_PreviewMouseLeftButtonUp"
+                              ScrollViewer.CanContentScroll="True"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="Auto"/>
+                            <DataGridTextColumn Header="Дата и время начала" Binding="{Binding StartDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" Width="Auto"/>
+                            <DataGridTextColumn Header="Дата и время окончания" Binding="{Binding EndDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" Width="Auto"/>
+                            <DataGridTextColumn Header="Регион" Binding="{Binding Region.Name}" Width="Auto"/>
+                            <DataGridTextColumn Header="Место проведения" Binding="{Binding Location}" Width="Auto"/>
+                            <DataGridTextColumn Header="Дополнительная информация" Binding="{Binding AdditionalInfo}" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Участие в мероприятиях">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" x:Name="AddNewVolunteerEventButton" Content="Добавить участие" Margin="5" Click="AddNewVolunteerEventButton_Click"/>
+                        <Button Grid.Column="1" x:Name="EditVolunteerEventButton" Content="Изменить данные об участии " Margin="5" IsEnabled="False" Click="EditVolunteerEventButton_Click"/>
+                        <Button Grid.Column="2" x:Name="DeleteVolunteerEventButton" Content="Удалить участие" Margin="5" IsEnabled="False" Click="DeleteVolunteerEventButton_Click"/>
+                        <Label Grid.Column="3" Content="Мероприятие:" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="4" x:Name="CurrentEventComboBox" DisplayMemberPath="Name" SelectedValuePath="Id"
+                                    Margin="5" VerticalAlignment="Center"
+                                    SelectionChanged="CurrentEventComboBox_SelectionChanged"/>
+                    </Grid>
+
+                    <DataGrid x:Name="VolunteerEventsDataGrid" Grid.Row="1"
+                              AutoGenerateColumns="False" CanUserAddRows="False"
+                              IsReadOnly="True" Margin="5" 
+                              PreviewMouseLeftButtonUp="VolunteerEventsDataGrid_PreviewMouseLeftButtonUp"
+                              ScrollViewer.CanContentScroll="True"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="Фамилия" Binding="{Binding Volunteer.LastName}" Width="Auto"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Volunteer.FirstName}" Width="Auto"/>
+                            <DataGridTextColumn Header="Отчество" Binding="{Binding Volunteer.MiddleName}" Width="Auto"/>
+                            <DataGridTextColumn Header="СНИЛС" Binding="{Binding Volunteer.Snils}" Width="Auto"/>
+                            <DataGridTextColumn Header="Роль" Binding="{Binding Role.Name}" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <Grid Grid.Row="2" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="ImportFromExcelSpreadsheetButton" Content="Импорт из файла Microsoft Excel" IsEnabled="True" Margin="5" Click="ImportFromExcelSpreadsheetButton_Click"/>
+            <Button Grid.Column="1" x:Name="ImportFromXMLFileButton" Content="Импорт таблицы из файла XML" IsEnabled="True" Margin="5" Click="ImportFromXMLFileButton_Click"/>
+            <Button Grid.Column="2" x:Name="ExportToWordTextDocumentButton" Content="Экспорт в файл Microsoft Word" IsEnabled="False" Margin="5" Click="ExportToWordTextDocumentButton_Click"/>
+            <Button Grid.Column="3" x:Name="ExportToExcelSpreadsheetButton" Content="Экспорт в файл Microsoft Excel" IsEnabled="False" Margin="5" Click="ExportToExcelSpreadsheetButton_Click"/>
+            <Button Grid.Column="4" x:Name="ExportToXMLFileButton" Content="Экспорт таблицы в файл XML" IsEnabled="True" Margin="5" Click="ExportToXMLFileButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,19 @@
+﻿<Window x:Class="VolunteeringWpfApp.AboutProgramWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VolunteeringWpfApp"
+        mc:Ignorable="d"
+        Title="Учёт и планирование волонтёрской деятельности: сведения" Width="520" Height="200" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" KeyDown="Window_KeyDown" HorizontalAlignment="Center">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="452">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Учёт и планирование волонтёрской деятельности" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"/>
+        <Label Grid.Row="1" Content="Автор: Романов Дмитрий Владимирович" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,10,0,0"/>
+        <TextBlock Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center"><Run Text="студент Воронежского госудаственного технического университета"/><LineBreak/><Run Text="факультета информационных технологий и компьютерной безопасности"/><LineBreak/><Run Text="группы бПО-221"/></TextBlock>
+    </Grid>
+</Window>
